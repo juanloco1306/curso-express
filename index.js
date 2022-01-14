@@ -1,12 +1,22 @@
 const express = require('express');
+const morgan = require('morgan');
 const app = express();
 
-app.use(express.json());
 
-app.all('/user', (req, res, next) => {
+
+/* Nuestro propio middleware
+function logger(req, res, next) {
+    console.log(`Route Received: ${req.protocol}://${req.get('host')}${req.originalUrl}`);
+    next();
+}*/
+
+app.use(express.json());
+app.use(morgan('dev'));
+
+/*app.all('/user', (req, res, next) => {
     console.log('Por aqui paso');
     next();
-});
+});*/
 
 app.get('/user', (req, res) => {
     res.json({
