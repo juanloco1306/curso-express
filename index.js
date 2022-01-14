@@ -1,20 +1,33 @@
 const express = require('express');
 const app = express();
 
-app.get('/', (req, res) => {
-    res.send('Hello World');
+app.use(express.json());
+
+app.all('/user', (req, res, next) => {
+    console.log('Por aqui paso');
+    next();
 });
 
-app.get('/about', (req, res) => {
-    res.send('About me');
+app.get('/user', (req, res) => {
+    res.json({
+        username: 'Cameron',
+        lastname: 'Howe'
+    });
 });
 
-app.get('/contact', (req, res) => {
-    res.send('Form contact');
+app.post('/user/:id', (req, res) => {
+    console.log(req.body);
+    console.log(req.params)
+    res.send('Peticion post recibida');
 });
 
-app.get('/test', (req, res) => {
-    res.send('<h1>Test</h1>');
+app.put('/user/:id', (req, res) => {
+    console.log(req.body);
+    res.send(`User ${req.params.id} updated`);
+});
+
+app.delete('/user/:userId', (req, res) => {
+    res.send(`User ${req.params.userId} deleted`);
 });
 
 app.listen(5000, () => {
